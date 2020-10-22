@@ -4,6 +4,7 @@ import json
 import os
 import random
 import time
+import datetime
 import re
 from bs4 import BeautifulSoup
 from lxml import etree
@@ -96,11 +97,13 @@ def cha(city_one, city_two, date, csv_writer):
             # 4. 写入csv文件内容
             if (city is not None):
                 city = re.sub('\d+', '', city)
+            print("start writing csv file")
             csv_writer.writerow(
                 [city_one, city_two, applicationDate, documentDate, sum_title, ipc_conent, city, highlight, propy,
                  sum_count])
-            time.sleep(random.randint(6, 9))
-        time.sleep(random.randint(9, 14))
+            #time.sleep(random.randint(6, 9))
+            print("writing csv file ok")
+        #time.sleep(random.randint(9, 14))
         if (count >= pageNum):
             count = 0
             break
@@ -122,7 +125,8 @@ if __name__ == '__main__':
     #     city_sums.remove(city)
     # time.sleep(200)
     # date = [2015,2019,2011]
-    path = os.getcwd() + '2015-代理机构-申请人'
+    #文件名称跟当前系统时间相关，不会被覆盖掉
+    path = os.getcwd() + '/2015-代理机构-申请人' + datetime.datetime.now().strftime('%Y-%m-%d-%H_%M_%S') # fixed by lgy
     city_sums = city_sum
     # 1. 创建文件对象
     f = open('%s.csv' % path, 'w+', encoding='utf-8', newline='' "")
