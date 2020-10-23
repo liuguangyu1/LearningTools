@@ -101,9 +101,9 @@ def cha(city_one, city_two, date, csv_writer):
             csv_writer.writerow(
                 [city_one, city_two, applicationDate, documentDate, sum_title, ipc_conent, city, highlight, propy,
                  sum_count])
-            #time.sleep(random.randint(6, 9))
+            time.sleep(random.randint(6, 9))
             print("writing csv file ok")
-        #time.sleep(random.randint(9, 14))
+        time.sleep(random.randint(9, 14))
         if (count >= pageNum):
             count = 0
             break
@@ -126,7 +126,7 @@ if __name__ == '__main__':
     # time.sleep(200)
     # date = [2015,2019,2011]
     #文件名称跟当前系统时间相关，不会被覆盖掉
-    path = os.getcwd() + '/2015-代理机构-申请人' + datetime.datetime.now().strftime('%Y-%m-%d-%H_%M_%S') # fixed by lgy
+    path = os.getcwd() + '/2016-代理机构-申请人' + datetime.datetime.now().strftime('%Y-%m-%d-%H_%M_%S') # fixed by lgy
     city_sums = city_sum
     # 1. 创建文件对象
     f = open('%s.csv' % path, 'w+', encoding='utf-8', newline='' "")
@@ -135,13 +135,15 @@ if __name__ == '__main__':
     # 3. 构建列表头
     csv_writer.writerow(["代理机构", "申请人", "申请日", "公开公告日", "专利名称", "IPC分类号", "申请人地址", "申请(专利权)人", "代理机构信息", "数据总量"])
     for city in city_sum:
-
+        flag = False
         for ci in city_sums:
-            if (city != ci):
-                date = '2015-01-01+TO+2015-12-31'
+            if(flag == True):
+                date = '2016-01-01+TO+2016-12-31'
                 cha(city, ci, date, csv_writer)
                 print(city + '-' + ci)
-        city_sums.remove(city)
+            if (city == ci):
+                flag = True
+       #city_sums.remove(city)
 
 # print(re.sub('^window.pageData=','',text))
 # json_text = re.findall('window.pageData =(.*)', text, re.I)
