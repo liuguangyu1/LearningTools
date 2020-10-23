@@ -26,10 +26,7 @@ def cha(city_one, city_two, date, csv_writer):
     count = 1
     requests.packages.urllib3.disable_warnings()
     while True:
-        # https://www.patenthub.cn/s?ds=cn&dm=mix&p=&ps=20&s=score!&q2=&m=none&fc=[{"type"%3A"countryCode"%2C"op"%3A"include"%2C"values"%3A["CN"]}]&q=(ap%3A(青岛)+AND+ap%3A(济南))+AND+(ad%3A[2019-01-01+TO+2019-12-31])
         hot = 'https://www.patenthub.cn/s?p={0}&'.format(count)
-        # https://www.patenthub.cn/s?p=2&q=(ap%3A(北京)+AND+ap%3A(山东))+AND+(dd%3A[2019-01-01+TO+2019-12-30])&dm=mix&ps=20&fc=[{"type"%3A"countryCode"%2C"op"%3A"include"%2C"values"%3A["CN"]}]
-        # url = hot + 'ps=20&q=(ap%3A(' + city_one +')+AND+ag%3A(' + city_two +'))+AND+(dd%3A['+ date +'])&fc=[{"type"%3A"countryCode"%2C"op"%3A"include"%2C"values"%3A["CN"]}]'
         url = hot + 'ps=20&q=(ag%3A(' + city_one + ')+AND+addr%3A(' + city_two + '))+AND+(dd%3A[' + date + '])&fc=[{"type"%3A"type"%2C"op"%3A"include"%2C"values"%3A["CN_发明公开"%2C"CN_发明授权"]}]'
         print(url)
         res = requests.get(url=url, headers=head)
@@ -115,54 +112,21 @@ def cha(city_one, city_two, date, csv_writer):
 if __name__ == '__main__':
     # video()
     city_sum = ["青岛", "济南", "烟台", "潍坊", "临沂", "济宁", "淄博", "威海", "东营", "日照", "泰安", "滨州", "枣庄", "德州", "聊城", "菏泽"]
-    city_sums = ["青岛", "济南", "烟台", "潍坊", "临沂", "济宁", "淄博", "威海", "东营", "日照", "泰安", "滨州", "枣庄", "德州", "聊城", "菏泽"]
-    # for city in city_sum:
-    #     for ci in city_sums:
-    #         if (city != ci):
-    #             #date = '{}-01-01+TO+{}-12-31'.format(da, da)
-    #             #cha(city, ci, date, csv_writer)
-    #             print(city + '-' + ci)
-    #     city_sums.remove(city)
-    # time.sleep(200)
-    # date = [2015,2019,2011]
     #文件名称跟当前系统时间相关，不会被覆盖掉
     path = os.getcwd() + '/2016-代理机构-申请人' + datetime.datetime.now().strftime('%Y-%m-%d-%H_%M_%S') # fixed by lgy
-    city_sums = city_sum
     # 1. 创建文件对象
     f = open('%s.csv' % path, 'w+', encoding='utf-8', newline='' "")
     # 2. 基于文件对象构建 csv写入对象
     csv_writer = csv.writer(f)
     # 3. 构建列表头
     csv_writer.writerow(["代理机构", "申请人", "申请日", "公开公告日", "专利名称", "IPC分类号", "申请人地址", "申请(专利权)人", "代理机构信息", "数据总量"])
-    for city in city_sum:
+    for city_one in city_sum:
         flag = False
-        for ci in city_sums:
+        for city_two in city_sum:
             if(flag == True):
                 date = '2016-01-01+TO+2016-12-31'
-                cha(city, ci, date, csv_writer)
-                print(city + '-' + ci)
-            if (city == ci):
+                cha(city_one, city_two, date, csv_writer)
+                print(city_one + '-' + city_two)
+            if (city_one == city_two):
                 flag = True
-       #city_sums.remove(city)
 
-# print(re.sub('^window.pageData=','',text))
-# json_text = re.findall('window.pageData =(.*)', text, re.I)
-# json_text = re.findall('"resultList":(.*)', text, re.I)
-# json_text = re.findall('"result":(.*)', text, re.I)
-# json_text = re.findall('"pid":"(.*)",', text, re.I)
-# json_text = re.findall('"pid":"(.*)",', text, re.I)
-
-
-#
-# requests.packages.urllib3.disable_warnings()
-#     url = 'https://aiqicha.baidu.com/s?q=山东科源制药有限公司&t=0'
-#     res = requests.get(url=url, headers= head)
-#     print(res.status_code)
-#     text = res.text.encode('utf-8').decode('unicode-escape')
-#
-#     json_text = re.findall('"pid":"(\d+)",', text, re.I)
-#     jsons = re.findall('"titleName":"(\w+)",', text, re.I)
-#     print(json_text)
-#     print(len(json_text))
-#     print(jsons)
-#     print(len(jsons))
